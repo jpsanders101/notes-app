@@ -1,0 +1,15 @@
+{
+  "user": {
+    "username": "Jon"
+  },
+  "notes": [
+    {
+      "title": "Shopping list",
+      "body": "Peanut butter, coffee, washing up liquid"
+    },
+    {
+      "title": "Thoughts on life",
+      "body": "I should really call my parents more often"
+    }
+  ]
+}
