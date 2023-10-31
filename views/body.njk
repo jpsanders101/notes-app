@@ -1,3 +1,7 @@
 <h1 class="main-heading">Notes App</h1>
-{% include "welcome.njk" %}
-{% include "notes-list.njk" %}
+{% if email %}
+  {% include "welcome.njk" %}
+  {% include "notes-list.njk" %}
+{% else %}
+  {% include "login.njk" %}
+{% endif %}
