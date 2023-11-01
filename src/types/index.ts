@@ -27,6 +27,7 @@ export interface ErrorStatus {
 }
 
 export interface PageContext {
+  userId?: Number,
   email?: String,
   notes?: Note[]
 }
