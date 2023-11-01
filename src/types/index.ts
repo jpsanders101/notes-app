@@ -1,7 +1,7 @@
 interface Note {
-  id: Number,
-  body: String,
-  subject: String,
+  id: number,
+  body: string,
+  subject: string,
 }
 
 interface User {
@@ -22,12 +22,12 @@ export interface NotesData {
 }
 
 export interface ErrorStatus {
-  message: String,
-  status: Number,
+  message: string,
+  status: number,
 }
 
 export interface PageContext {
-  userId?: Number,
-  email?: String,
+  userId?: number,
+  email?: string,
   notes?: Note[]
 }
