@@ -1,6 +1,6 @@
 import { Client } from 'pg';
 import { ClientError } from './errors';
-import client from './db';
+import client, { clientIsConnected } from './db';
 
 export async function login(email: String, password: String, client: Client) {
   const query = `
@@ -20,7 +20,7 @@ export async function login(email: String, password: String, client: Client) {
 }
 
 export async function getNotesByUserId(userId: number) {
-  await client.connect();
+  await clientIsConnected;;
   const query = `SELECT ID,
     USER_ID,
     SUBJECT,

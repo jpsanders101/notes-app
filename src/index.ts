@@ -8,7 +8,7 @@ import { LoginRequestBody } from './types/index';
 import { login } from './actions';
 import { auth } from './util';
 import { ClientError } from './errors';
-import client from './db';
+import client, { clientIsConnected } from './db';
 import { getNotes } from './util';
 
 const app: Express = express();
@@ -51,7 +51,7 @@ app.post('/login', asyncMiddleware(async (req: Request, res: Response) => {
   const { email, password } = loginRequestBody;
 
   console.log('Connected to database');
-  await client.connect();
+  await clientIsConnected;;
   const user = await login(email, password, client);
 
   console.log('user', user);
@@ -62,6 +62,13 @@ app.post('/login', asyncMiddleware(async (req: Request, res: Response) => {
   console.log('token', token);
 
   console.log('Successfully logged in');
+  res.redirect('/');
+}));
+
+app.post('/logout', asyncMiddleware(async (req: Request, res: Response) => {
+  const logLabel = 'POST /logout';
+  console.log(`${logLabel} invoked`, req.body);
+  res.setHeader('Set-Cookie', `X-JWT-Token=""`);
   res.redirect('/');
 }));
 

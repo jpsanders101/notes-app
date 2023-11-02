@@ -16,4 +16,9 @@ const client = new Client({
   ssl: dbSSL
 });
 
+export const clientIsConnected = new Promise((res, rej) => client.connect().then(res).catch((e) => {
+  console.error('Failed to connect to db', e);
+  rej();
+}))
+
 export default client;
