@@ -21,9 +21,7 @@ export const auth = (req: Request, res: Response, next: NextFunction) => {
 
   let jwtResponse 
   try {
-    console.log(logLabel, jwtToken, jwtSecretKey);
     jwtResponse = jwt.verify(jwtToken, jwtSecretKey);
-    console.log(typeof jwtResponse);
     if (!jwtResponse) throw Error('no-jwt-response');
     if (typeof jwtResponse === 'string') throw Error('unexpected-jwt-response');
   } catch (e) {

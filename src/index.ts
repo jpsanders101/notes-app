@@ -39,9 +39,7 @@ app.use(cookieParser());
 
 app.get('/', auth, getNotes, (req: Request, res: Response) => {
   const logLabel = '[GET /]';
-  console.log(`${logLabel} New request`);
-  console.log('cookies', req.cookies);
-  
+  console.log(`${logLabel} invoked`);  
   res.render('index.html', res.context);
 });
 
@@ -54,12 +52,8 @@ app.post('/login', asyncMiddleware(async (req: Request, res: Response) => {
   await clientIsConnected;;
   const user = await login(email, password, client);
 
-  console.log('user', user);
-
   const token = jwt.sign({ id: user.id, email: user.email }, jwtSecretKey, { expiresIn: '2 days' });
   res.setHeader('Set-Cookie', `X-JWT-Token=${token}`);
-
-  console.log('token', token);
 
   console.log('Successfully logged in');
   res.redirect('/');

@@ -27,7 +27,7 @@ export async function getNotesByUserId(userId: number) {
     BODY
   FROM "note"
   WHERE USER_ID = ${userId};`;
-  console.log('Querying for user');
+  console.log('Querying for notes');
   const res = await client.query(query);
   return res.rows;
 }
