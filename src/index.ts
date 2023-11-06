@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import express, { Express, NextFunction, Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import nunjucks from 'nunjucks';
