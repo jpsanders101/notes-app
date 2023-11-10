@@ -7,11 +7,9 @@ import nunjucks from 'nunjucks';
 import jwt from 'jsonwebtoken';
 import cookieParser from 'cookie-parser';
 import { LoginRequestBody } from './types/index';
-import { login, addNote } from './actions';
-import { auth } from './util';
+import { auth, getNotes } from './middleware';
 import { ClientError } from './errors';
-import client, { clientIsConnected } from './db';
-import { getNotes } from './util';
+import client, { clientIsConnected, login, addNote } from './db';
 
 const app: Express = express();
 const defaultPort = 2468;
@@ -46,18 +44,19 @@ app.get('/', auth, getNotes, (req: Request, res: Response) => {
 });
 
 app.post('/login', asyncMiddleware(async (req: Request, res: Response) => {
-  console.log('/login invoked', req.body);
+  const logLabel = '[POST /login]';
+  console.log(`${logLabel} invoked`, req.body);
   const loginRequestBody: LoginRequestBody = req.body;
   const { email, password } = loginRequestBody;
 
-  console.log('Connected to database');
+  console.log(`${logLabel} Connected to database`);
   await clientIsConnected;;
   const user = await login(email, password, client);
 
   const token = jwt.sign({ id: user.id, email: user.email }, jwtSecretKey, { expiresIn: '2 days' });
   res.setHeader('Set-Cookie', `X-JWT-Token=${token}`);
 
-  console.log('Successfully logged in');
+  console.log(`${logLabel} Successfully logged in`);
   res.redirect('/');
 }));
 

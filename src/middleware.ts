@@ -1,7 +1,6 @@
-import { PageContext } from './types/index';
-import express, { Express, NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import { getNotesByUserId} from './actions';
+import { getNotesByUserId} from './db';
 
 const jwtSecretKey = process.env.JWT_SECRET_KEY;
 
@@ -36,8 +35,10 @@ export const auth = (req: Request, res: Response, next: NextFunction) => {
 }
 
 export const getNotes = async (req: Request, res: Response, next: NextFunction) => {
+  const logLabel = '[getNotes]';
   const userId = res.context?.userId
   if (!userId) {
+    console.log(`${logLabel} User not logged in`);
     return next();
   }
   const notes = await getNotesByUserId(userId);
