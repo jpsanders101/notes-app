@@ -1,6 +1,7 @@
 import { Client } from 'pg';
 import { ClientError } from './errors';
 import client, { clientIsConnected } from './db';
+import { NoteRequest } from './types';
 
 export async function login(email: String, password: String, client: Client) {
   const query = `
@@ -30,4 +31,14 @@ export async function getNotesByUserId(userId: number) {
   console.log('Querying for notes');
   const res = await client.query(query);
   return res.rows;
+}
+
+export async function addNote(req: NoteRequest) {
+  await clientIsConnected;
+  const query = `INSERT INTO "note"(USER_ID,
+    SUBJECT,
+    BODY)
+    VALUES('${req.userId}', '${req.subject}', '${req.body}')`;
+    const res = await client.query(query);
+    console.log('Successfully added note', res.rowCount);
 }

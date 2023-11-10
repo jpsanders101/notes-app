@@ -1,10 +1,13 @@
+if (process.env.LOCAL) {
+  require('dotenv').config();
+}
 import express, { Express, NextFunction, Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import nunjucks from 'nunjucks';
 import jwt from 'jsonwebtoken';
 import cookieParser from 'cookie-parser';
 import { LoginRequestBody } from './types/index';
-import { login } from './actions';
+import { login, addNote } from './actions';
 import { auth } from './util';
 import { ClientError } from './errors';
 import client, { clientIsConnected } from './db';
@@ -62,6 +65,17 @@ app.post('/logout', asyncMiddleware(async (req: Request, res: Response) => {
   const logLabel = 'POST /logout';
   console.log(`${logLabel} invoked`, req.body);
   res.setHeader('Set-Cookie', `X-JWT-Token=""`);
+  res.redirect('/');
+}));
+
+app.post('/note', auth, asyncMiddleware(async (req: Request, res: Response) => {
+  const logLabel = 'POST /note';
+  console.log(`${logLabel} invoked`, req.body);
+  if (!res.context?.userId) {
+    console.error(`${logLabel} not authenticated`);
+    return res.sendStatus(403);
+  }
+  await addNote({ subject: req.body.subject, body: req.body.body, userId: res.context.userId });
   res.redirect('/');
 }));
 

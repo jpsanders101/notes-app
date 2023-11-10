@@ -6,3 +6,7 @@
   color: #AF33FF;
 }
 
+.new-note-form {
+  display: flex;
+  flex-direction: column;
+}

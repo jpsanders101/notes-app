@@ -5,11 +5,12 @@
   "main": "dist/index.js",
   "repository": "https://github.com/jpsanders101/notes-app.git",
   "author": "Jon Sanders <jpsanders101@gmail.com>",
-  "license": "none",
+  "license": "UNLICENSED",
   "scripts": {
     "build": "npx tsc",
     "start": "node dist/index.js",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\""
+    "start-local": "export LOCAL=true && node dist/index.js",
+    "dev": "export LOCAL=true && npx nodemon ./src/index.ts"
   },
   "dependencies": {
     "body-parser": "^1.20.2",
@@ -30,6 +31,7 @@
     "dotenv": "^16.3.1",
     "kill-port": "^2.0.1",
     "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   }
 }

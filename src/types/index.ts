@@ -4,6 +4,12 @@ interface Note {
   subject: string,
 }
 
+export interface NoteRequest {
+  body: string,
+  subject: string,
+  userId: number,
+}
+
 interface User {
   id: Number,
   email: String,
